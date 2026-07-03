@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class BULLET : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
-    public float speed = 25f;
-    public int damage = 20;
+    public float speed = 30f;
+    public int damage = 25;
 
     void Update()
     {
@@ -14,7 +14,7 @@ public class BULLET : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<ENEMYHEALTH>().TakeDamage(damage);
+            other.GetComponent<Enemy>().TakeDamage(damage);
             Destroy(gameObject);
         }
     }
