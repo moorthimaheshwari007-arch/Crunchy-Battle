@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crunchy Battle - Profile</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<h1>CRUNCHY BATTLE</h1>
+</header>
+
+<div class="container">
+
+<h2>PLAYER PROFILE</h2>
+
+<div class="card">
+
+<p id="profileName">Name : Guest</p>
+
+<p id="profileID">ID : Loading...</p>
+
+<p id="profileLevel">Level : 1</p>
+
+<p id="profileCoins">Coins : 999999</p>
+
+<p id="profileGems">Gems : 999999</p>
+
+<button class="play" onclick="window.location='index.html'">
+HOME
+</button>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+<script>
+const name=localStorage.getItem("playerName")||"Guest";
+document.getElementById("profileName").innerHTML="Name : "+name;
+document.getElementById("profileID").innerHTML="ID : CB"+Math.floor(Math.random()*1000000);
+</script>
+
+</body>
+</html>
