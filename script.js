@@ -39,3 +39,17 @@ Coins: ${player.coins}
 Gems: ${player.gems}`
     );
 }
+function login(){
+
+let name=document.getElementById("name").value;
+
+if(name==""){
+alert("Enter your player name");
+return;
+}
+
+localStorage.setItem("playerName",name);
+
+window.location="index.html";
+
+}
