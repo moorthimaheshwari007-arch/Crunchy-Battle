@@ -1,11 +1,9 @@
 using UnityEngine;
 
-public class MOBILECAMERA : MonoBehaviour
+public class CAMERA : MonoBehaviour
 {
-    public float sensitivity = 0.1f;
     public Transform player;
-
-    private float rotationX;
+    public float sensitivity = 0.2f;
 
     void Update()
     {
@@ -15,9 +13,8 @@ public class MOBILECAMERA : MonoBehaviour
 
             if (t.phase == TouchPhase.Moved)
             {
-                float rotY = t.deltaPosition.x * sensitivity;
-
-                player.Rotate(0, rotY, 0);
+                float rot = t.deltaPosition.x * sensitivity;
+                player.Rotate(0, rot, 0);
             }
         }
     }
