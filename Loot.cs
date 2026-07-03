@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class LOOT : MonoBehaviour
+public class Loot : MonoBehaviour
 {
-    public ITEM item;
+    public string itemName;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<INVENTORY>().AddItem(item);
+            Debug.Log("Picked: " + itemName);
             Destroy(gameObject);
         }
     }
