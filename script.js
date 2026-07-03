@@ -32,24 +32,41 @@ function preload() {
 // ---------------- CREATE ----------------
 function create() {
 
+    // MAP
+    this.add.rectangle(450, 250, 900, 500, 0x1e3d2f);
+
+    this.add.rectangle(200, 300, 40, 120, 0x006400);
+    this.add.rectangle(700, 350, 40, 120, 0x006400);
+    this.add.rectangle(500, 200, 120, 40, 0x654321);
+
+    // TRAIN INTRO
+    let train = this.add.rectangle(-200, 450, 250, 50, 0x333333);
+
+    this.tweens.add({
+        targets: train,
+        x: 300,
+        duration: 2000,
+        ease: "Linear",
+        onComplete: () => {
+            this.add.text(320, 260, "JUMP!", { fontSize: "20px", fill: "#ff0000" });
+            this.tweens.add({ targets: train, x: 1100, duration: 1500 });
+        }
+    });
+
     // PLAYER
     player = this.physics.add.sprite(450, 400, "player").setScale(0.12);
 
-    // GROUPS
     enemies = this.physics.add.group();
     bullets = this.physics.add.group();
 
-    // MAP (simple ground)
-    let ground = this.add.rectangle(450, 490, 900, 20, 0x00aa00);
-
     // ENEMIES
     for (let i = 0; i < 6; i++) {
-        let e = enemies.create(100 + i * 120, 150, "enemy").setScale(0.1);
+        let e = enemies.create(100 + i * 120, 120, "enemy").setScale(0.1);
         e.hp = 30;
     }
 
     // BOSS
-    boss = this.physics.add.sprite(800, 120, "boss").setScale(0.2);
+    boss = this.physics.add.sprite(820, 100, "boss").setScale(0.2);
     boss.hp = 200;
 
     cursors = this.input.keyboard.createCursorKeys();
@@ -62,19 +79,8 @@ function create() {
         fill: "#ffffff"
     });
 
-    // COLLISIONS
     this.physics.add.overlap(bullets, enemies, hitEnemy, null, this);
     this.physics.add.overlap(bullets, boss, hitBoss, null, this);
-
-    // TRAIN INTRO (simple effect)
-    this.add.text(300, 220, "TRAIN DROP START!", {
-        fontSize: "25px",
-        fill: "#ff0000"
-    });
-
-    setTimeout(() => {
-        this.add.text(320, 250, "SURVIVE!", { fontSize: "20px", fill: "#fff" });
-    }, 2000);
 }
 
 // ---------------- UPDATE ----------------
@@ -105,17 +111,14 @@ function shoot() {
 // ---------------- SWITCH GUN ----------------
 function switchGun() {
     gunType = gunType === 1 ? 2 : 1;
-    alert(gunType === 1 ? "Rifle selected" : "Sniper selected");
+    alert(gunType === 1 ? "Rifle Selected" : "Sniper Selected");
 }
 
 // ---------------- ENEMY HIT ----------------
 function hitEnemy(bullet, enemy) {
     bullet.destroy();
     enemy.hp -= 10;
-
-    if (enemy.hp <= 0) {
-        enemy.destroy();
-    }
+    if (enemy.hp <= 0) enemy.destroy();
 }
 
 // ---------------- BOSS HIT ----------------
