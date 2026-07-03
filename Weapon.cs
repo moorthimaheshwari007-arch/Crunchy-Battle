@@ -1,21 +1,28 @@
 using UnityEngine;
 
-public class BULLET : MonoBehaviour
+public class GunSystem : MonoBehaviour
 {
-    public float speed = 25f;
-    public int damage = 20;
+    public GameObject bullet;
+    public Transform firePoint;
 
-    void Update()
+    public int ammo = 30;
+    public int maxAmmo = 30;
+
+    public float fireRate = 0.15f;
+    float nextFire;
+
+    public void Shoot()
     {
-        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        if (Time.time < nextFire || ammo <= 0) return;
+
+        Instantiate(bullet, firePoint.position, firePoint.rotation);
+        ammo--;
+
+        nextFire = Time.time + fireRate;
     }
 
-    void OnTriggerEnter(Collider other)
+    public void Reload()
     {
-        if (other.CompareTag("Enemy"))
-        {
-            other.GetComponent<ENEMY>().TakeDamage(damage);
-            Destroy(gameObject);
-        }
+        ammo = maxAmmo;
     }
 }
