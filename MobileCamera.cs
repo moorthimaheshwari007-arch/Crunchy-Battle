@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CAMERA : MonoBehaviour
+public class CameraLook : MonoBehaviour
 {
     public Transform player;
     public float sensitivity = 0.2f;
@@ -13,8 +13,7 @@ public class CAMERA : MonoBehaviour
 
             if (t.phase == TouchPhase.Moved)
             {
-                float rot = t.deltaPosition.x * sensitivity;
-                player.Rotate(0, rot, 0);
+                player.Rotate(0, t.deltaPosition.x * sensitivity, 0);
             }
         }
     }
