@@ -35,6 +35,7 @@ function create() {
     // MAP
     this.add.rectangle(450, 250, 900, 500, 0x1e3d2f);
 
+    // OBSTACLES
     this.add.rectangle(200, 300, 40, 120, 0x006400);
     this.add.rectangle(700, 350, 40, 120, 0x006400);
     this.add.rectangle(500, 200, 120, 40, 0x654321);
@@ -48,8 +49,16 @@ function create() {
         duration: 2000,
         ease: "Linear",
         onComplete: () => {
-            this.add.text(320, 260, "JUMP!", { fontSize: "20px", fill: "#ff0000" });
-            this.tweens.add({ targets: train, x: 1100, duration: 1500 });
+            this.add.text(320, 260, "JUMP!", {
+                fontSize: "20px",
+                fill: "#ff0000"
+            });
+
+            this.tweens.add({
+                targets: train,
+                x: 1100,
+                duration: 1500
+            });
         }
     });
 
@@ -71,14 +80,26 @@ function create() {
 
     cursors = this.input.keyboard.createCursorKeys();
 
+    // SHOOT (keyboard optional)
     this.input.keyboard.on("keydown-SPACE", shoot, this);
-    this.input.keyboard.on("keydown-Q", switchGun);
 
+    // MOBILE GUN BUTTON
+    let gunBtn = this.add.text(720, 20, "GUN", {
+        fontSize: "20px",
+        backgroundColor: "#ff9800",
+        padding: { x: 10, y: 5 },
+        color: "#000"
+    }).setInteractive();
+
+    gunBtn.on("pointerdown", switchGun);
+
+    // HP UI
     hpText = this.add.text(10, 10, "HP: 100", {
         fontSize: "20px",
         fill: "#ffffff"
     });
 
+    // COLLISION
     this.physics.add.overlap(bullets, enemies, hitEnemy, null, this);
     this.physics.add.overlap(bullets, boss, hitBoss, null, this);
 }
@@ -110,20 +131,27 @@ function shoot() {
 
 // ---------------- SWITCH GUN ----------------
 function switchGun() {
+
     gunType = gunType === 1 ? 2 : 1;
+
     alert(gunType === 1 ? "Rifle Selected" : "Sniper Selected");
 }
 
 // ---------------- ENEMY HIT ----------------
 function hitEnemy(bullet, enemy) {
+
     bullet.destroy();
+
     enemy.hp -= 10;
+
     if (enemy.hp <= 0) enemy.destroy();
 }
 
 // ---------------- BOSS HIT ----------------
 function hitBoss(bullet, bossObj) {
+
     bullet.destroy();
+
     bossObj.hp -= 5;
 
     if (bossObj.hp <= 0) {
