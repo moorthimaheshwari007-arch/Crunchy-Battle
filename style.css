@@ -1,70 +1,50 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+// Crunchy Battle
+
+const player = {
+    id: "CB" + Math.floor(Math.random() * 1000000),
+    name: "Guest",
+    coins: 999999,
+    gems: 999999,
+    level: 1
+};
+
+window.onload = function () {
+    const id = document.getElementById("playerid");
+    if (id) {
+        id.innerHTML = "Player ID: " + player.id;
+    }
+
+    const welcome = document.getElementById("welcome");
+    if (welcome) {
+        welcome.innerHTML = "Welcome " + player.name;
+    }
+};
+
+function playGame() {
+    alert("Crunchy Battle is under development!");
 }
 
-body{
-    background:#101010;
-    color:white;
-    text-align:center;
+function showHelp() {
+    alert(
+`HOW TO PLAY
+
+1. Press PLAY
+2. Join a match
+3. Jump from the moving train
+4. Find weapons
+5. Defeat enemies
+6. Be the last survivor`
+    );
 }
 
-header{
-    background:#ff9800;
-    padding:20px;
-}
+function showProfile() {
+    alert(
+`PLAYER PROFILE
 
-header h1{
-    font-size:32px;
-}
-
-.container{
-    padding:20px;
-}
-
-button{
-    padding:15px 25px;
-    margin:10px;
-    border:none;
-    border-radius:10px;
-    font-size:18px;
-    cursor:pointer;
-}
-
-.play{
-    background:#00c853;
-    color:white;
-}
-
-.inventory{
-    background:#2196f3;
-    color:white;
-}
-
-.shop{
-    background:#ff9800;
-    color:white;
-}
-
-.help{
-    position:fixed;
-    top:15px;
-    right:15px;
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    background:#ff9800;
-    color:white;
-    font-size:28px;
-    font-weight:bold;
-}
-
-footer{
-    position:fixed;
-    bottom:0;
-    width:100%;
-    background:#222;
-    padding:15px;
+ID: ${player.id}
+Name: ${player.name}
+Level: ${player.level}
+Coins: ${player.coins}
+Gems: ${player.gems}`
+    );
 }
