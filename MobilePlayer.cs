@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class MOBILEPLAYER : MonoBehaviour
+public class PLAYER : MonoBehaviour
 {
     public CharacterController controller;
-    public float speed = 5f;
-
     public FloatingJoystick joystick;
+
+    public float speed = 5f;
+    public Transform cameraTransform;
 
     void Update()
     {
