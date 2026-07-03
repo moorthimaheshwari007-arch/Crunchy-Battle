@@ -29,7 +29,7 @@ function preload() {
     this.load.image("bullet", "https://i.imgur.com/9Qx5QZy.png");
     this.load.image("boss", "https://i.imgur.com/8Q1ZQZy.png");
 
-    // 🔊 SOUND (ONLINE LINKS)
+    // 🔊 SOUND
     this.load.audio("shoot", "https://assets.mixkit.co/sfx/preview/mixkit-laser-gun-shot-2810.mp3");
     this.load.audio("hit", "https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-explosion-2759.mp3");
     this.load.audio("bg", "https://assets.mixkit.co/music/preview/mixkit-action-game-loop-2975.mp3");
@@ -38,10 +38,10 @@ function preload() {
 // ---------------- CREATE ----------------
 function create() {
 
-    // 🌍 BIG MAP
+    // 🌍 MAP
     this.add.rectangle(500, 300, 3000, 2000, 0x145a32);
 
-    // TRAIN INTRO
+    // 🚂 TRAIN INTRO
     let train = this.add.rectangle(-300, 500, 300, 60, 0x333333);
 
     this.tweens.add({
@@ -49,7 +49,7 @@ function create() {
         x: 400,
         duration: 2000,
         onComplete: () => {
-            this.add.text(350, 260, "JUMP!", {
+            this.add.text(350, 260, "BATTLE START!", {
                 fontSize: "20px",
                 fill: "#ff0000"
             });
@@ -71,14 +71,14 @@ function create() {
     enemies = this.physics.add.group();
     bullets = this.physics.add.group();
 
-    // ENEMY AI
+    // 🤖 ENEMY AI
     for (let i = 0; i < 10; i++) {
         let e = enemies.create(300 + i * 200, 300, "enemy").setScale(0.1);
         e.hp = 30;
         e.dir = Math.random() * Math.PI * 2;
     }
 
-    // BOSS
+    // 👑 BOSS
     boss = this.physics.add.sprite(2500, 400, "boss").setScale(0.2);
     boss.hp = 250;
 
@@ -122,9 +122,9 @@ function update() {
     if (cursors.left.isDown) player.setVelocityX(-250);
     if (cursors.right.isDown) player.setVelocityX(250);
     if (cursors.up.isDown) player.setVelocityY(-250);
-    if (cursors.down.isDown) player.setVelocityY(250);
+    if (cursors.down.isDown) player.setVelocityY(-250);
 
-    // ENEMY AI
+    // 🤖 ENEMY AI
     enemies.children.iterate(function (e) {
         if (!e) return;
 
@@ -136,7 +136,7 @@ function update() {
         }
     });
 
-    // HEALTH BAR UPDATE
+    // ❤️ HEALTH BAR UPDATE
     hpBar.width = hp * 2;
 }
 
@@ -166,6 +166,7 @@ function hitEnemy(bullet, enemy) {
 
     bullet.destroy();
     enemy.hp -= 10;
+
     if (enemy.hp <= 0) enemy.destroy();
 }
 
@@ -179,6 +180,6 @@ function hitBoss(bullet, bossObj) {
 
     if (bossObj.hp <= 0) {
         bossObj.destroy();
-        alert("BOSS DEFEATED!");
+        alert("YOU WIN! BOSS DEFEATED!");
     }
 }
