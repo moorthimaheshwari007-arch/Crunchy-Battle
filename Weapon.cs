@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MOBILEWEAPON : MonoBehaviour
+public class WEAPON : MonoBehaviour
 {
     public GameObject bullet;
     public Transform firePoint;
