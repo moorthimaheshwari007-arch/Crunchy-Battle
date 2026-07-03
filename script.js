@@ -1,5 +1,8 @@
-// Crunchy Battle
+// ===============================
+// Crunchy Battle - script.js
+// ===============================
 
+// Player Data
 const player = {
     id: "CB" + Math.floor(Math.random() * 1000000),
     name: "Guest",
@@ -8,15 +11,53 @@ const player = {
     level: 1
 };
 
-console.log("Welcome to Crunchy Battle!");
-console.log("Player ID:", player.id);
+// Run when page loads
+window.onload = function () {
 
+    // Welcome text
+    const welcome = document.getElementById("welcome");
+    if (welcome) {
+        const savedName = localStorage.getItem("playerName");
+        if (savedName) {
+            player.name = savedName;
+        }
+        welcome.innerHTML = "Welcome " + player.name;
+    }
+
+    // Player ID
+    const id = document.getElementById("playerid");
+    if (id) {
+        id.innerHTML = "Player ID : " + player.id;
+    }
+};
+
+// Login
+function login() {
+
+    const name = document.getElementById("name").value;
+
+    if (name === "") {
+        alert("Please enter your player name.");
+        return;
+    }
+
+    localStorage.setItem("playerName", name);
+
+    window.location = "index.html";
+}
+
+// Play Button
+function playGame() {
+    alert("Battle mode is coming soon!");
+}
+
+// Help Button
 function showHelp() {
     alert(
 `HOW TO PLAY
 
-1. Press PLAY
-2. Join a match
+1. Login
+2. Press PLAY
 3. Jump from the moving train
 4. Find weapons
 5. Defeat enemies
@@ -24,43 +65,19 @@ function showHelp() {
     );
 }
 
-function playGame() {
-    alert("Crunchy Battle is under development.");
-}
-
+// Profile
 function showProfile() {
     alert(
 `PLAYER PROFILE
 
-ID: ${player.id}
-Name: ${player.name}
-Level: ${player.level}
-Coins: ${player.coins}
-Gems: ${player.gems}`
+Name : ${player.name}
+
+ID : ${player.id}
+
+Level : ${player.level}
+
+Coins : ${player.coins}
+
+Gems : ${player.gems}`
     );
-}
-function login(){
-
-let name=document.getElementById("name").value;
-
-if(name==""){
-alert("Enter your player name");
-return;
-}
-
-localStorage.setItem("playerName",name);
-
-window.location="index.html";
-
-}
-window.onload=function(){
-
-let n=localStorage.getItem("playerName");
-
-if(n){
-
-document.getElementById("welcome").innerHTML="Welcome "+n;
-
-}
-
 }
