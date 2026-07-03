@@ -1,7 +1,7 @@
 const config = {
     type: Phaser.AUTO,
-    width: 900,
-    height: 500,
+    width: 1000,
+    height: 600,
     physics: {
         default: "arcade",
         arcade: { debug: false }
@@ -16,7 +16,8 @@ let boss;
 let cursors;
 
 let hp = 100;
-let hpText;
+let hpBar;
+let hpBg;
 let gunType = 1;
 
 new Phaser.Game(config);
@@ -32,74 +33,68 @@ function preload() {
 // ---------------- CREATE ----------------
 function create() {
 
-    // MAP
-    this.add.rectangle(450, 250, 900, 500, 0x1e3d2f);
+    // 🌍 BIG MAP
+    this.add.rectangle(500, 300, 2000, 1200, 0x145a32);
 
     // OBSTACLES
-    this.add.rectangle(200, 300, 40, 120, 0x006400);
-    this.add.rectangle(700, 350, 40, 120, 0x006400);
-    this.add.rectangle(500, 200, 120, 40, 0x654321);
-
-    // TRAIN INTRO
-    let train = this.add.rectangle(-200, 450, 250, 50, 0x333333);
-
-    this.tweens.add({
-        targets: train,
-        x: 300,
-        duration: 2000,
-        ease: "Linear",
-        onComplete: () => {
-            this.add.text(320, 260, "JUMP!", {
-                fontSize: "20px",
-                fill: "#ff0000"
-            });
-
-            this.tweens.add({
-                targets: train,
-                x: 1100,
-                duration: 1500
-            });
-        }
-    });
+    for (let i = 0; i < 10; i++) {
+        this.add.rectangle(200 + i * 150, 200, 40, 120, 0x006400);
+    }
 
     // PLAYER
-    player = this.physics.add.sprite(450, 400, "player").setScale(0.12);
+    player = this.physics.add.sprite(500, 500, "player").setScale(0.12);
+    player.setCollideWorldBounds(true);
+
+    // CAMERA FOLLOWS PLAYER (BIG WORLD)
+    this.cameras.main.startFollow(player);
+    this.physics.world.setBounds(0, 0, 2000, 1200);
+    player.setBoundsCollision(true);
 
     enemies = this.physics.add.group();
     bullets = this.physics.add.group();
 
-    // ENEMIES
-    for (let i = 0; i < 6; i++) {
-        let e = enemies.create(100 + i * 120, 120, "enemy").setScale(0.1);
+    // ENEMY AI MOVEMENT
+    for (let i = 0; i < 8; i++) {
+        let e = enemies.create(300 + i * 200, 300, "enemy").setScale(0.1);
         e.hp = 30;
+
+        e.direction = Math.random() * 2 * Math.PI;
     }
 
     // BOSS
-    boss = this.physics.add.sprite(820, 100, "boss").setScale(0.2);
+    boss = this.physics.add.sprite(1700, 300, "boss").setScale(0.2);
     boss.hp = 200;
 
     cursors = this.input.keyboard.createCursorKeys();
 
-    // SHOOT (keyboard optional)
     this.input.keyboard.on("keydown-SPACE", shoot, this);
 
-    // MOBILE GUN BUTTON
-    let gunBtn = this.add.text(720, 20, "GUN", {
-        fontSize: "20px",
+    // 📱 MOBILE SHOOT BUTTON
+    let shootBtn = this.add.text(850, 520, "SHOOT", {
+        fontSize: "22px",
+        backgroundColor: "#ff0000",
+        color: "#ffffff",
+        padding: { x: 10, y: 5 }
+    }).setScrollFactor(0).setInteractive();
+
+    shootBtn.on("pointerdown", shoot, this);
+
+    // 📱 MOBILE GUN BUTTON
+    let gunBtn = this.add.text(750, 520, "GUN", {
+        fontSize: "22px",
         backgroundColor: "#ff9800",
-        padding: { x: 10, y: 5 },
-        color: "#000"
-    }).setInteractive();
+        color: "#000",
+        padding: { x: 10, y: 5 }
+    }).setScrollFactor(0).setInteractive();
 
     gunBtn.on("pointerdown", switchGun);
 
-    // HP UI
-    hpText = this.add.text(10, 10, "HP: 100", {
-        fontSize: "20px",
-        fill: "#ffffff"
-    });
+    // ❤️ HEALTH BAR BACKGROUND
+    hpBg = this.add.rectangle(150, 20, 200, 20, 0x000000).setScrollFactor(0);
 
-    // COLLISION
+    // ❤️ HEALTH BAR
+    hpBar = this.add.rectangle(150, 20, 200, 20, 0xff0000).setScrollFactor(0);
+
     this.physics.add.overlap(bullets, enemies, hitEnemy, null, this);
     this.physics.add.overlap(bullets, boss, hitBoss, null, this);
 }
@@ -109,12 +104,26 @@ function update() {
 
     player.setVelocity(0);
 
-    if (cursors.left.isDown) player.setVelocityX(-200);
-    if (cursors.right.isDown) player.setVelocityX(200);
-    if (cursors.up.isDown) player.setVelocityY(-200);
-    if (cursors.down.isDown) player.setVelocityY(200);
+    if (cursors.left.isDown) player.setVelocityX(-250);
+    if (cursors.right.isDown) player.setVelocityX(250);
+    if (cursors.up.isDown) player.setVelocityY(-250);
+    if (cursors.down.isDown) player.setVelocityY(250);
 
-    hpText.setText("HP: " + hp);
+    // ENEMY AI MOVEMENT
+    enemies.children.iterate(function (enemy) {
+        if (!enemy) return;
+
+        enemy.x += Math.cos(enemy.direction) * 1.5;
+        enemy.y += Math.sin(enemy.direction) * 1.5;
+
+        // change direction randomly
+        if (Math.random() < 0.01) {
+            enemy.direction = Math.random() * 2 * Math.PI;
+        }
+    });
+
+    // UPDATE HEALTH BAR
+    hpBar.width = hp * 2;
 }
 
 // ---------------- SHOOT ----------------
@@ -122,7 +131,7 @@ function shoot() {
 
     let bullet = bullets.create(player.x, player.y, "bullet").setScale(0.05);
 
-    let speed = gunType === 1 ? 400 : 700;
+    let speed = gunType === 1 ? 500 : 800;
 
     bullet.setVelocityX(speed);
 
@@ -131,27 +140,19 @@ function shoot() {
 
 // ---------------- SWITCH GUN ----------------
 function switchGun() {
-
     gunType = gunType === 1 ? 2 : 1;
-
-    alert(gunType === 1 ? "Rifle Selected" : "Sniper Selected");
 }
 
 // ---------------- ENEMY HIT ----------------
 function hitEnemy(bullet, enemy) {
-
     bullet.destroy();
-
     enemy.hp -= 10;
-
     if (enemy.hp <= 0) enemy.destroy();
 }
 
 // ---------------- BOSS HIT ----------------
 function hitBoss(bullet, bossObj) {
-
     bullet.destroy();
-
     bossObj.hp -= 5;
 
     if (bossObj.hp <= 0) {
