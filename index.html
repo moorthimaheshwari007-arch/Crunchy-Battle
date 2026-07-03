@@ -6,15 +6,39 @@
 <title>Crunchy Battle</title>
 
 <link rel="stylesheet" href="style.css">
-</head>
 
+</head>
 <body>
 
-<h1>Crunchy Battle</h1>
+<header>
+<h1>CRUNCHY BATTLE</h1>
+</header>
 
-<button onclick="playGame()">PLAY</button>
+<button class="help" onclick="showHelp()">?</button>
 
-<button onclick="showHelp()">?</button>
+<div class="container">
+
+<h2 id="welcome">Welcome Warrior</h2>
+
+<p id="playerid"></p>
+
+<button class="play" onclick="playGame()">
+PLAY
+</button>
+
+<button class="inventory" onclick="showProfile()">
+PROFILE
+</button>
+
+<button class="shop">
+SHOP
+</button>
+
+</div>
+
+<footer>
+Crunchy Battle © 2026
+</footer>
 
 <script src="script.js"></script>
 
