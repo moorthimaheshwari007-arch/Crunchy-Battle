@@ -53,3 +53,14 @@ localStorage.setItem("playerName",name);
 window.location="index.html";
 
 }
+window.onload=function(){
+
+let n=localStorage.getItem("playerName");
+
+if(n){
+
+document.getElementById("welcome").innerHTML="Welcome "+n;
+
+}
+
+}
