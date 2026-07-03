@@ -9,17 +9,22 @@ public class TrainSystem : MonoBehaviour
 
     void Update()
     {
-        if (points.Length == 0) return;
+        if (points == null || points.Length == 0) return;
+
+        Transform target = points[index];
 
         transform.position = Vector3.MoveTowards(
             transform.position,
-            points[index].position,
+            target.position,
             speed * Time.deltaTime
         );
 
-        if (Vector3.Distance(transform.position, points[index].position) < 1f)
+        if (Vector3.Distance(transform.position, target.position) < 1f)
         {
-            index = (index + 1) % points.Length;
+            index++;
+
+            if (index >= points.Length)
+                index = 0;
         }
     }
 }
