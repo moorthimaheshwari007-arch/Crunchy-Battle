@@ -1,12 +1,21 @@
 using UnityEngine;
 
-public class WEAPON : MonoBehaviour
+public class BULLET : MonoBehaviour
 {
-    public GameObject bullet;
-    public Transform firePoint;
+    public float speed = 25f;
+    public int damage = 20;
 
-    public void Shoot()
+    void Update()
     {
-        Instantiate(bullet, firePoint.position, firePoint.rotation);
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<ENEMY>().TakeDamage(damage);
+            Destroy(gameObject);
+        }
     }
 }
