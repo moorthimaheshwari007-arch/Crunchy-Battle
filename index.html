@@ -5,111 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Crunchy Battle</title>
 
-<style>
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#111;
-color:white;
-text-align:center;
-}
+<link rel="stylesheet" href="style.css">
 
-header{
-background:#ff9800;
-padding:20px;
-font-size:32px;
-font-weight:bold;
-}
-
-button{
-padding:15px 30px;
-font-size:20px;
-border:none;
-border-radius:10px;
-margin:10px;
-cursor:pointer;
-}
-
-.play{
-background:#00c853;
-color:white;
-}
-
-.help{
-position:fixed;
-top:15px;
-right:15px;
-width:50px;
-height:50px;
-border-radius:50%;
-font-size:28px;
-background:#ff9800;
-color:white;
-}
-
-#helpBox{
-display:none;
-position:fixed;
-top:80px;
-right:10px;
-background:#222;
-padding:20px;
-border-radius:15px;
-width:280px;
-text-align:left;
-}
-
-footer{
-position:fixed;
-bottom:0;
-width:100%;
-background:#222;
-padding:15px;
-}
-</style>
 </head>
 
 <body>
 
-<header>CRUNCHY BATTLE</header>
+<header>
+<h1>CRUNCHY BATTLE</h1>
+</header>
+
+<button class="help" onclick="showHelp()">?</button>
+
+<div class="container">
 
 <h2>Welcome Warrior</h2>
 
-<button class="play" onclick="alert('Game Coming Soon')">
+<p>Original Battle Royale Website</p>
+
+<div class="card">
+
+<h3>Player</h3>
+
+<p id="playerid"></p>
+
+<button class="play" onclick="playGame()">
 PLAY
 </button>
 
-<button class="help" onclick="help()">
-?
+<button class="inventory" onclick="showProfile()">
+PROFILE
 </button>
 
-<div id="helpBox">
-<h2>How To Play</h2>
+<button class="shop">
+SHOP
+</button>
 
-<p>1. Login</p>
-<p>2. Join Match</p>
-<p>3. Jump from the moving train</p>
-<p>4. Find weapons</p>
-<p>5. Defeat enemies</p>
-<p>6. Be the last survivor</p>
+</div>
 
 </div>
 
 <footer>
+
 Crunchy Battle © 2026
+
 </footer>
 
-<script>
-function help(){
-var x=document.getElementById("helpBox");
-
-if(x.style.display=="block"){
-x.style.display="none";
-}else{
-x.style.display="block";
-}
-}
-</script>
+<script src="script.js"></script>
 
 </body>
-  </html>
+</html>
