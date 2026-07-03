@@ -1,35 +1,25 @@
 using UnityEngine;
 
-public class TrainDrop : MonoBehaviour
+public class TrainJump : MonoBehaviour
 {
-    public GameObject player;
-    public Transform seat;
+    public Animator playerAnim;
+    public CharacterController controller;
 
-    public bool isOnTrain = true;
+    public float jumpForce = 5f;
+    private Vector3 velocity;
 
-    void Start()
+    public void JumpFromTrain()
     {
-        if (player != null && seat != null)
-        {
-            player.transform.position = seat.position;
-            player.transform.parent = seat;
+        playerAnim.SetTrigger("jump");
 
-            isOnTrain = true;
-        }
+        transform.parent = null;
+
+        velocity.y = jumpForce;
     }
 
-    public void DropFromTrain()
+    void Update()
     {
-        if (!isOnTrain) return;
-
-        player.transform.parent = null;
-
-        PlayerController pc = player.GetComponent<PlayerController>();
-        if (pc != null)
-        {
-            pc.StartFall();
-        }
-
-        isOnTrain = false;
+        velocity.y += Physics.gravity.y * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 }
